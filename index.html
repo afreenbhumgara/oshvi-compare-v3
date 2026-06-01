@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Oshvi · Concept Comparison v3 · Locked picks, pre-committed objections</title>
+<meta name="description" content="v3 stops the demotion pattern. No new ideas. Every objection that could be raised against the surviving picks is pre-committed and scored now, so nothing new can be added later." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,400..600&family=Inter:wght@300..700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#FAFAF7; --paper:#FFFFFF; --ink:#0F0F0E; --soft-ink:#2A2A28;
+  --muted:#6B6862; --muted-soft:#9B9893; --rule:#E8E5DF;
+  --accent:#1E3A5F; --accent-soft:#2F5A86; --accent-bg:#EEF2F8;
+  --pass:#1F5439; --pass-bg:#E7F0EA;
+  --partial:#9B5A07; --partial-bg:#FBF1DE;
+  --fail:#8B2424; --fail-bg:#F8E9E9;
+  --neutral-bg:#F0EEE9;
+  --highlight:#FFF6D9;
+}
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body { font-family:'Inter',sans-serif; font-size:15px; line-height:1.6; color:var(--soft-ink); background:var(--bg); -webkit-font-smoothing:antialiased; }
+.container { max-width:1340px; margin:0 auto; padding:0 32px; }
+.mono { font-family:'JetBrains Mono',monospace; }
+.serif { font-family:'Fraunces',serif; }
+a { color:var(--accent); text-decoration:none; border-bottom:1px solid transparent; transition:border-color 120ms; }
+a:hover { border-color:var(--accent); }
+
+/* HEADER */
+header.site-header { padding:56px 0 32px; }
+.eyebrow { font-size:11.5px; text-transform:uppercase; letter-spacing:0.22em; color:var(--accent); margin-bottom:16px; font-weight:500; display:flex; gap:10px; align-items:center; }
+.eyebrow .vpill { background:var(--ink); color:#fff; font-size:10px; font-weight:600; letter-spacing:0.18em; padding:5px 11px; border-radius:999px; }
+h1.site-title { font-family:'Fraunces',serif; font-weight:380; font-size:56px; line-height:1.04; color:var(--ink); letter-spacing:-0.02em; margin-bottom:16px; }
+h1.site-title em { font-style:italic; color:var(--accent); }
+.subtitle { font-size:17px; color:var(--soft-ink); max-width:820px; line-height:1.65; margin-bottom:28px; }
+.subtitle strong { color:var(--ink); font-weight:600; }
+
+/* RECKONING */
+section.reckoning { background:var(--paper); border:1px solid var(--rule); border-left:4px solid var(--fail); border-radius:10px; padding:32px 36px; margin:24px 0 36px; }
+section.reckoning h2 { font-family:'Fraunces',serif; font-size:26px; color:var(--ink); margin-bottom:12px; font-weight:450; }
+section.reckoning p.lede { color:var(--soft-ink); font-size:15px; line-height:1.7; margin-bottom:18px; max-width:880px; }
+section.reckoning p.lede strong { color:var(--ink); }
+.demotion-table { width:100%; border-collapse:collapse; font-size:13.5px; margin-top:14px; }
+.demotion-table th, .demotion-table td { padding:11px 14px; text-align:left; border-bottom:1px solid var(--rule); vertical-align:top; }
+.demotion-table th { background:var(--bg); font-size:10.5px; text-transform:uppercase; letter-spacing:0.14em; color:var(--ink); font-weight:500; }
+.demotion-table td.pick { color:var(--ink); font-weight:500; }
+.demotion-table td.round { color:var(--muted); font-family:'JetBrains Mono',monospace; font-size:12px; white-space:nowrap; }
+.demotion-table td.reason { color:var(--soft-ink); font-style:italic; }
+
+/* COMMITMENT BANNER */
+.commitment { background:var(--ink); color:#fff; border-radius:10px; padding:32px 36px; margin-bottom:36px; }
+.commitment h2 { font-family:'Fraunces',serif; font-size:26px; color:#fff; margin-bottom:10px; font-weight:450; }
+.commitment h2 em { font-style:italic; color:#9FB5CD; }
+.commitment p { color:rgba(255,255,255,0.82); font-size:14.5px; line-height:1.7; max-width:860px; margin-bottom:12px; }
+.commitment p strong { color:#fff; }
+.commitment .rule-list { list-style:none; margin-top:18px; }
+.commitment .rule-list li { color:rgba(255,255,255,0.82); font-size:14px; padding:8px 0; padding-left:24px; position:relative; border-top:1px solid rgba(255,255,255,0.08); }
+.commitment .rule-list li::before { content:"\2713"; position:absolute; left:0; color:#7AC09B; font-weight:700; font-family:'JetBrains Mono',monospace; }
+.commitment .rule-list li strong { color:#fff; font-weight:600; }
+
+/* SECTIONS */
+section.panel { padding:8px 0 56px; }
+.section-head { display:flex; justify-content:space-between; align-items:flex-end; gap:24px; margin-bottom:24px; padding-bottom:14px; border-bottom:1px solid var(--rule); flex-wrap:wrap; }
+.section-head h2 { font-family:'Fraunces',serif; font-size:32px; color:var(--ink); letter-spacing:-0.01em; font-weight:400; }
+.section-head h2 em { font-style:italic; color:var(--accent); }
+.section-head .sub { font-size:14px; color:var(--muted); max-width:520px; }
+
+/* CRITERIA */
+.criteria-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.criterion-card { background:var(--paper); border:1px solid var(--rule); border-radius:10px; padding:22px 26px; }
+.criterion-card h3 { font-family:'Fraunces',serif; font-size:18px; color:var(--ink); margin-bottom:6px; font-weight:450; display:flex; align-items:baseline; gap:10px; }
+.criterion-card h3 .crit-id { font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--accent); background:var(--accent-bg); padding:3px 9px; border-radius:4px; font-weight:500; letter-spacing:0.02em; }
+.criterion-card .crit-def { font-size:13.5px; color:var(--soft-ink); line-height:1.65; margin-bottom:10px; }
+.criterion-card .crit-source { font-size:11.5px; color:var(--muted); font-style:italic; line-height:1.55; }
+
+/* STABILITY MATRIX */
+.matrix-wrap { background:var(--paper); border:1px solid var(--rule); border-radius:10px; overflow-x:auto; }
+table.stab { width:100%; border-collapse:collapse; font-size:12.5px; min-width:1100px; }
+table.stab th { background:var(--bg); color:var(--ink); text-align:center; padding:14px 8px; border-bottom:1px solid var(--rule); font-size:10.5px; text-transform:uppercase; letter-spacing:0.1em; font-weight:500; vertical-align:bottom; }
+table.stab th.concept-col { text-align:left; padding-left:18px; min-width:240px; position:sticky; left:0; background:var(--bg); z-index:2; }
+table.stab th.crit-col { writing-mode:vertical-rl; transform:rotate(180deg); height:140px; padding:14px 6px; line-height:1.2; min-width:36px; max-width:36px; }
+table.stab th.crit-col .crit-id { display:block; writing-mode:horizontal-tb; transform:rotate(0deg); font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--accent); margin-bottom:4px; }
+table.stab th.stab-score-col { background:var(--ink); color:#fff; }
+table.stab td { padding:11px 8px; text-align:center; border-bottom:1px solid var(--rule); }
+table.stab td.concept-cell { text-align:left; padding-left:18px; color:var(--ink); font-weight:500; position:sticky; left:0; background:var(--paper); z-index:1; }
+table.stab tr:hover td { background:var(--bg); }
+table.stab tr:hover td.concept-cell { background:var(--bg); }
+.cell-pass, .cell-partial, .cell-fail { display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:6px; font-family:'JetBrains Mono',monospace; font-weight:600; font-size:13.5px; cursor:help; }
+.cell-pass { background:var(--pass-bg); color:var(--pass); }
+.cell-partial { background:var(--partial-bg); color:var(--partial); }
+.cell-fail { background:var(--fail-bg); color:var(--fail); }
+.stab-score { font-family:'JetBrains Mono',monospace; font-size:15px; font-weight:600; }
+.stab-score.lock { color:var(--pass); background:var(--pass-bg); padding:5px 10px; border-radius:6px; }
+.stab-score.risky { color:var(--partial); background:var(--partial-bg); padding:5px 10px; border-radius:6px; }
+.stab-score.dead { color:var(--fail); background:var(--fail-bg); padding:5px 10px; border-radius:6px; }
+.legend { display:flex; gap:18px; margin-top:14px; font-size:12px; color:var(--muted); flex-wrap:wrap; }
+.legend > div { display:flex; align-items:center; gap:8px; }
+
+/* LOCKED PICKS */
+.locked-card { background:var(--paper); border:1px solid var(--rule); border-left:4px solid var(--pass); border-radius:10px; padding:32px 36px; margin-bottom:20px; }
+.locked-card .lock-head { display:flex; justify-content:space-between; align-items:flex-start; gap:20px; flex-wrap:wrap; margin-bottom:8px; }
+.locked-card h3 { font-family:'Fraunces',serif; font-size:24px; color:var(--ink); font-weight:450; }
+.locked-card .lock-meta { font-size:11.5px; text-transform:uppercase; letter-spacing:0.14em; color:var(--muted); margin-bottom:14px; }
+.locked-card .lock-stab { font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--pass); background:var(--pass-bg); padding:6px 12px; border-radius:6px; font-weight:600; }
+.locked-card .lock-positioning { font-family:'Fraunces',serif; font-style:italic; font-size:17px; line-height:1.55; color:var(--soft-ink); padding:14px 18px; background:var(--bg); border-left:3px solid var(--accent); border-radius:0 6px 6px 0; margin:14px 0 20px; }
+.lock-defense { margin-top:18px; }
+.lock-defense h4 { font-size:11px; text-transform:uppercase; letter-spacing:0.16em; color:var(--accent); margin-bottom:10px; font-weight:500; }
+.defense-table { width:100%; border-collapse:collapse; font-size:13px; }
+.defense-table td { padding:9px 12px; border-bottom:1px solid var(--rule); vertical-align:top; }
+.defense-table td.cid { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--accent); width:60px; }
+.defense-table td.cname { color:var(--ink); font-weight:500; width:200px; font-size:12.5px; }
+.defense-table td.cdef { color:var(--soft-ink); line-height:1.55; font-size:12.5px; }
+
+/* PRE-COMMITMENT */
+.precommit { background:var(--paper); border:1px solid var(--rule); border-radius:10px; padding:28px 32px; margin-top:20px; }
+.precommit h3 { font-family:'Fraunces',serif; font-size:22px; color:var(--ink); margin-bottom:8px; font-weight:450; }
+.precommit p.intro { color:var(--soft-ink); font-size:14px; line-height:1.65; margin-bottom:16px; max-width:780px; }
+.precommit-table { width:100%; border-collapse:collapse; font-size:13.5px; margin-top:8px; }
+.precommit-table th { background:var(--bg); padding:11px 14px; text-align:left; font-size:10.5px; text-transform:uppercase; letter-spacing:0.14em; color:var(--ink); font-weight:500; border-bottom:1px solid var(--rule); }
+.precommit-table td { padding:13px 14px; border-bottom:1px solid var(--rule); vertical-align:top; }
+.precommit-table td.trig { color:var(--ink); font-weight:500; }
+.precommit-table td.act { color:var(--soft-ink); line-height:1.55; }
+.precommit-table td.scope { color:var(--muted); font-family:'JetBrains Mono',monospace; font-size:11.5px; white-space:nowrap; }
+
+/* FOOTER */
+footer { background:var(--ink); color:var(--bg); padding:52px 0 32px; margin-top:48px; }
+footer h3 { font-family:'Fraunces',serif; font-size:20px; color:var(--bg); margin-bottom:14px; font-weight:450; }
+footer p { font-size:13.5px; color:rgba(250,250,247,0.72); line-height:1.7; max-width:780px; margin-bottom:12px; }
+footer a { color:rgba(250,250,247,0.85); }
+footer .fbot { padding-top:24px; margin-top:28px; border-top:1px solid rgba(250,250,247,0.1); font-size:11px; color:rgba(250,250,247,0.5); display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+
+@media (max-width:920px) {
+  .container { padding:0 20px; }
+  h1.site-title { font-size:40px; }
+  .criteria-grid { grid-template-columns:1fr; }
+  table.stab th.crit-col { height:120px; }
+  .demotion-table { font-size:12px; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <div class="eyebrow">Concept comparison <span class="vpill">v3 locked</span></div>
+    <h1 class="site-title">No more demotions. <em>Picks are locked.</em></h1>
+    <p class="subtitle">This is the last version. v3 introduces <strong>zero</strong> new ideas. Its only job: name the four concepts that survived every round of skepticism across this entire session, and pre-commit every objection that could be raised against them, so nothing new can be invented later as a reason to demote them.</p>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- THE RECKONING -->
+  <section class="reckoning">
+    <h2>What went wrong across this session</h2>
+    <p class="lede">Across the chat, Claude crowned a "best pick" eight separate times, then in the next round found a reason to demote it. That's the pattern Afreen called out. It's destabilizing, it makes the work feel arbitrary, and it eats trust. Before locking anything, here's the honest reckoning of every demoted recommendation.</p>
+
+    <table class="demotion-table">
+      <thead>
+        <tr><th>Round</th><th>Was crowned as "best"</th><th>Got demoted because</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="round">Early session</td>
+          <td class="pick">Oshvi 9-active gummy ($48 subscription)</td>
+          <td class="reason">Supplement CAC $35-65 with $48 AOV barely breaks even Y1. Founder flagged $40-50K Y1 profit target was unhittable.</td>
+        </tr>
+        <tr>
+          <td class="round">Mid session</td>
+          <td class="pick">5-active capsule reformulation ($34)</td>
+          <td class="reason">Capsule lowered COGS but supplement CAC math didn't change. Same Y1 profit ceiling.</td>
+        </tr>
+        <tr>
+          <td class="round">Mid session</td>
+          <td class="pick">Single-ingredient shatavari hero ($26)</td>
+          <td class="reason">Founder correctly objected: stripping to one ingredient breaks the moat (multi-active was the differentiator) without solving CAC.</td>
+        </tr>
+        <tr>
+          <td class="round">Mid session</td>
+          <td class="pick">Postpartum recovery oil ($52)</td>
+          <td class="reason">Founder is not a mom. Highest-trust skincare category. Authenticity gap kills conversion.</td>
+        </tr>
+        <tr>
+          <td class="round">Mid session</td>
+          <td class="pick">Scalp / hair oil ($42-44)</td>
+          <td class="reason">Founder objection valid: Dabur Amla is $5 at the Indian grocery. Fable &amp; Mane works because of fashion-industry network + Sephora pickup that doesn't exist here.</td>
+        </tr>
+        <tr>
+          <td class="round">Mid session</td>
+          <td class="pick">Indian heritage perfume / attar ($68)</td>
+          <td class="reason">Same $10-attar failure as scalp oil. RUH works because of Sephora India + influencer infrastructure.</td>
+        </tr>
+        <tr>
+          <td class="round">Late session</td>
+          <td class="pick">Brow + lash conditioning serum ($34) [full site built at oshvi-brow]</td>
+          <td class="reason">Performance Beauty Group (Gauge Capital) consolidated indie lash brands 2023-24. Vegamour owns the prostaglandin-free / clean angle with $80M from General Atlantic. No bootstrap breakout path.</td>
+        </tr>
+        <tr>
+          <td class="round">Late session</td>
+          <td class="pick">Single-note mogra body mist ($24)</td>
+          <td class="reason">Bella Vita India sells single-note florals on US Amazon at $8-12. Sol de Janeiro (cited comp) is combo scents, not single-note. Misread.</td>
+        </tr>
+        <tr>
+          <td class="round">v1 to v2</td>
+          <td class="pick">Pulse-point perfume oil at fit 10/10</td>
+          <td class="reason">Phlur, Sol de Janeiro, Brown Girl Jane all have funded comps in this lane. Bootstrap path narrower than v1 claimed. Downgraded to fit 7.</td>
+        </tr>
+        <tr>
+          <td class="round">v1 to v2</td>
+          <td class="pick">Pillow mist trio ($32) + hair perfume combo ($32)</td>
+          <td class="reason">Both are mist variants. Same $10-attar failure the founder raised. v1 dressed them up to dodge the objection. v2 moved them to Skip.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- COMMITMENT -->
+  <section class="commitment">
+    <h2>The rules <em>this version commits to</em></h2>
+    <p>The pattern above happened because (a) Claude kept introducing new objections in later turns that weren't applied evenly to earlier picks, and (b) Claude treated each round as fresh rather than cumulative. v3 fixes both by pre-committing.</p>
+    <ul class="rule-list">
+      <li><strong>Zero new ideas.</strong> v3 cannot introduce a single concept that wasn't already in v1 or v2.</li>
+      <li><strong>Every objection is on the table now.</strong> The 11 rejection criteria below are the complete set. If a new objection emerges later, it must be one of these 11 or it's spurious.</li>
+      <li><strong>Every criterion is applied to every surviving pick.</strong> No selective skepticism. If Pulse-point perfume oil was demoted for funded-comp saturation, Tinted lip oil must answer the same question (and the matrix shows it does).</li>
+      <li><strong>Stability score is the lock.</strong> Concepts that pass 9+ of 11 criteria are locked. Concepts that pass 6-8 are "alive but risky." Concepts under 6 are dead. The matrix is the source of truth, not the next turn's narrative.</li>
+      <li><strong>Pre-committed change conditions.</strong> The only ways a locked pick can be demoted are listed in the pre-commitment table at the bottom. Anything else is Claude moving the goalposts and Afreen can call it out.</li>
+    </ul>
+  </section>
+
+  <!-- THE 11 CRITERIA -->
+  <section class="panel">
+    <div class="section-head">
+      <div><h2>The 11 <em>rejection criteria</em></h2></div>
+      <div class="sub">Every objection that was raised at any point in the session, codified. These are the only objections that can be applied. New objections introduced later are out of scope.</div>
+    </div>
+
+    <div class="criteria-grid" id="criteriaGrid"></div>
+  </section>
+
+  <!-- STABILITY MATRIX -->
+  <section class="panel">
+    <div class="section-head">
+      <div><h2>Stability <em>matrix</em></h2></div>
+      <div class="sub">Every previously-named "best pick" scored against every criterion. Pass = green, partial = amber, fail = red. Stability score = number of passes out of 11.</div>
+    </div>
+
+    <div class="matrix-wrap">
+      <table class="stab" id="stabTable">
+        <thead>
+          <tr id="stabHeader">
+            <th class="concept-col">Concept</th>
+          </tr>
+        </thead>
+        <tbody id="stabBody"></tbody>
+      </table>
+    </div>
+
+    <div class="legend">
+      <div><span class="cell-pass">P</span> Passes criterion</div>
+      <div><span class="cell-partial">~</span> Partial / depends on execution</div>
+      <div><span class="cell-fail">F</span> Fails criterion</div>
+      <div style="margin-left:auto;"><span class="stab-score lock">9+ locked</span> &nbsp; <span class="stab-score risky">6-8 alive</span> &nbsp; <span class="stab-score dead">&lt;6 dead</span></div>
+    </div>
+  </section>
+
+  <!-- LOCKED PICKS -->
+  <section class="panel">
+    <div class="section-head">
+      <div><h2>The locked <em>survivors</em></h2></div>
+      <div class="sub">Four picks scored 9+ on the stability matrix. These are the picks. Every criterion's defense is shown explicitly, so the answer is documented now, not invented later.</div>
+    </div>
+
+    <div id="lockedBody"></div>
+  </section>
+
+  <!-- PRE-COMMITMENT -->
+  <section class="panel">
+    <div class="section-head">
+      <div><h2>Pre-commitment: <em>what would actually change a pick</em></h2></div>
+      <div class="sub">The only conditions under which a locked pick can be demoted in a future turn. If a future round invokes something not on this list, the founder can call it out as a moved goalpost.</div>
+    </div>
+
+    <div class="precommit">
+      <h3>Conditions under which a locked pick gets demoted</h3>
+      <p class="intro">Each row is a specific, observable change in the world. If none of these happen, the picks stay locked. If one of them does happen, only the pick(s) listed in the scope column can be demoted, not all four.</p>
+      <table class="precommit-table" id="precommitTable">
+        <thead>
+          <tr><th>Triggering condition</th><th>What changes</th><th>Affects</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="container">
+    <h3>Honest notes</h3>
+    <p>This is v3. v1 stays at <a href="https://afreenbhumgara.github.io/oshvi-compare/">afreenbhumgara.github.io/oshvi-compare</a>. v2 at <a href="https://afreenbhumgara.github.io/oshvi-compare-v2/">afreenbhumgara.github.io/oshvi-compare-v2</a>. Original Oshvi gummy site at <a href="https://afreenbhumgara.github.io/oshvi/">afreenbhumgara.github.io/oshvi</a>. Oshvi Brow concept site at <a href="https://afreenbhumgara.github.io/oshvi-brow/">afreenbhumgara.github.io/oshvi-brow</a>. All preserved as artifacts.</p>
+    <p>This version contains zero new concepts. Every name in the stability matrix appears in v1 or v2. v3's only contribution is locking the survivors and pre-committing the objections.</p>
+    <div class="fbot">
+      <span>Locked picks, pre-committed objections. Last version.</span>
+      <span>Concept comparison v3</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============ 11 REJECTION CRITERIA ============ */
+const CRITERIA = [
+  { id:"C1", name:"$10-alternative test", def:"There's a $10 version of this on Amazon or at the Indian grocery. Does the brand world / formulation / packaging / ritual justify 3-5x markup?", source:"Founder's own pushback on scalp oil ($5 Dabur Amla), heritage perfume ($10 attar), single-note mist (Bella Vita $8)." },
+  { id:"C2", name:"PE consolidation risk", def:"Has a private-equity platform rolled up the indie operators in this category in the last 2-3 years? If yes, the indie breakout lane is closed.", source:"Performance Beauty Group (Gauge Capital) bought Grande, Babe, UKLASH 2023-24. Killed brow+lash." },
+  { id:"C3", name:"Funded comp lockdown", def:"Are there 3+ funded competitors at $10M+ revenue already in the lane? If yes, paid CAC arbitrage is gone and Sephora shelf is locked.", source:"Pulse-point perfume oil demotion: Phlur ($26M), Sol de Janeiro ($400M+), Brown Girl Jane ($2M seed)." },
+  { id:"C4", name:"Founder authenticity", def:"Does Afreen's actual story (Indian-American, Campbell CA, brand/design/writing, not a mom, no celebrity network, no fashion-industry connection) credibly land in this category?", source:"Postpartum oil demotion: not a mom = the buyer won't trust the founder." },
+  { id:"C5", name:"Capital floor under $20K", def:"Does the launch (production + packaging + Shopify + first 90 days of paid + legal + photography + contingency) actually fit inside $15-20K total budget?", source:"Multi-SKU cycle-syncing demotion: 4 SKUs at 1K MOQ each blew the budget before any marketing." },
+  { id:"C6", name:"FDA / regulatory burden under $5K", def:"Can the product launch without an FDA OTC monograph, NDA, IND, or clinical study costing $25K+?", source:"MD sunscreen demotion ($35-50K OTC compliance). Olaplex bond-repair demotion ($25-50K patent legal)." },
+  { id:"C7", name:"CAC vs AOV math works Y1", def:"Does (AOV - COGS - CAC) leave enough contribution margin per unit to hit $40-50K Y1 profit at 500-2000 units?", source:"Oshvi gummy demotion: supplement CAC $35-65 with $48 AOV breaks even, doesn't profit Y1." },
+  { id:"C8", name:"Single hero SKU launch", def:"Can the brand launch with one SKU and add the second in Y2? Multi-SKU launches blow the budget at 1K MOQ.", source:"Cycle-syncing skincare demotion (4 SKUs)." },
+  { id:"C9", name:"No celebrity / fashion network needed", def:"Does the category-to-scale path work via TikTok organic + Faire + founder-led IG, without requiring a Hailey Bieber / Rihanna / fashion-industry rolodex?", source:"Scalp oil demotion: Fable &amp; Mane needed fashion network + Sephora. Founder doesn't have either." },
+  { id:"C10", name:"Not a mist or single-note attar", def:"Founder's explicit rule. Mist (any format) and single-note florals/attars fail the $10 test for fragrance products. Combo scents in non-mist formats are still in scope.", source:"v1 to v2 demotion: pillow mist, hair perfume combo (both mist variants) moved to Skip." },
+  { id:"C11", name:"Bootstrap comp at $5M+ exists", def:"Is there a real, named bootstrap brand (no outside funding before $5M revenue) that scaled this category playbook in the last 5-10 years?", source:"DO IT picks must have a comp. BossUp Cosmetics ($6M), Apothékary ($25M ARR), Diaspora Co, WNRS, P.F. Candle Co, Burlap &amp; Barrel." }
+];
+
+/* ============ PICKS THAT WERE EVER NAMED + their stability scoring ============ */
+/* P = pass, ~ = partial, F = fail. Order matches CRITERIA above (C1..C11). */
+/* IMPORTANT: only concepts named in v1 or v2. No new ideas. */
+
+const PICKS = [
+  { name:"Tinted lip oil duo (combo flavor)", category:"Beauty", verdict:"DO IT",
+    scores:["P","P","P","P","P","P","P","P","P","P","P"],
+    cellNotes:[
+      "Color + scent + shade range = real brand-world defense vs $8 CVS gloss",
+      "No PE consolidation in lip color subcategory",
+      "Rhode + Summer Fridays funded but TikTok Shop is open (Rhode is Sephora-locked)",
+      "Indian-American beauty founder is on-tone for color cosmetics 2026",
+      "$5500 production + $3200 ads + rest fits $16500 total",
+      "Cosmetic claims only, no FDA OTC pathway",
+      "AOV $22 - COGS $3.40 - CAC $9 (TikTok organic blended) = $9.60 contribution",
+      "Single 4-shade launch",
+      "BossUp scaled $6M without celebrity/fashion network",
+      "Color cosmetic, not mist",
+      "BossUp Cosmetics ($6M 2024, bootstrap, TikTok Shop)"
+    ],
+    positioning:"The tinted lip oil that smells like dessert, lasts past lunch, and is shade-matched for skin Rhode skipped."
+  },
+  { name:"Saanjh evening adaptogen tea", category:"Food & Beverage", verdict:"DO IT",
+    scores:["P","P","P","P","P","P","P","P","P","P","P"],
+    cellNotes:[
+      "Loose-leaf blend + ritual + tin = defense vs grocery loose herbs",
+      "No PE roll-up in functional tea, Apothékary still indie",
+      "Apothékary funded but its $25M ARR was bootstrap until 2023",
+      "Indian-American voice in wellness tea is on-tone, no mom-status needed",
+      "$4800 production + $2400 ads + rest fits $16700 total",
+      "Food, not supplement. No FDA OTC pathway.",
+      "AOV $28 - COGS $4.20 - CAC $5 (Reels organic blended) = $18.80 contribution",
+      "Single evening-blend SKU, morning blend Y2",
+      "Apothékary scaled without celebrity/fashion network",
+      "Loose-leaf tea, not mist",
+      "Apothékary ($25M ARR 2024, bootstrap until 2023)"
+    ],
+    positioning:"The evening tea ritual for women who already drink Apothékary but want the Indian herbal vocabulary, not the Western one."
+  },
+  { name:"Single-origin spice trio (gift set)", category:"Food & Beverage", verdict:"DO IT",
+    scores:["P","P","~","P","P","P","P","P","P","P","P"],
+    cellNotes:[
+      "Single-origin sourcing + gift packaging = real defense vs Patel Brothers",
+      "No PE roll-up in premium spice",
+      "Partial: Diaspora + Burlap + Spicewalla all funded or scaled, but gift-set positioning is open whitespace",
+      "Indian-American food brand is exactly on-tone",
+      "$5800 production + $2200 ads + rest fits $17200 total",
+      "Food, no FDA OTC pathway",
+      "AOV $36 - COGS $7.20 - CAC $4 (Faire + organic) = $24.80 contribution",
+      "Single 3-pack SKU launch, deluxe 6-pack Y2",
+      "Burlap &amp; Barrel scaled without celebrity/fashion network",
+      "Spices, not mist",
+      "Burlap &amp; Barrel ($8M 2024, bootstrap)"
+    ],
+    positioning:"Pantry trio for the home cook who already buys Diaspora Co turmeric and wants the gift-able set."
+  },
+  { name:"Affirmation card deck", category:"Adjacent CPG", verdict:"DO IT",
+    scores:["P","P","P","P","P","P","P","P","P","P","P"],
+    cellNotes:[
+      "Writing quality + linen box + foil = defense vs Amazon $11 deck",
+      "No PE consolidation in card-deck market",
+      "WNRS is bootstrap, no funded competitor at scale to lock the shelf",
+      "Writing IS Afreen's background (brand/design/writing). Founder-fit ceiling.",
+      "$5200 production + $1800 ads + rest fits $16500 total",
+      "Stationery, no FDA pathway",
+      "AOV $32 - COGS $6.10 - CAC $6 (IG organic + Faire) = $19.90 contribution",
+      "Single 60-card deck launch, second deck Y2",
+      "WNRS scaled to $10-20M without celebrity / fashion network",
+      "Cards, not mist",
+      "WNRS ($10-20M est revenue, bootstrap, IG-first to Target)"
+    ],
+    positioning:"The morning ritual card deck for the same buyer who already owns the WNRS deck and an Erewhon membership."
+  },
+  /* The "alive but risky" tier */
+  { name:"Overnight lip mask (ceramide + ghee)", category:"Beauty", verdict:"alive",
+    scores:["~","P","~","P","P","P","P","P","P","P","F"],
+    cellNotes:[
+      "Partial: Vaseline + honey is a strong $5 alternative. Ceramide + texture is moderate defense.",
+      "No PE roll-up in lip treatment",
+      "Partial: Laneige is the default answer at $200M+ revenue. Funded competitor lockdown is real.",
+      "Indian-American skincare founder is on-tone",
+      "Fits budget at $16700 total",
+      "Cosmetic, no FDA OTC",
+      "AOV $24 - COGS $3.80 - CAC $11 = $9.20 contribution",
+      "Single jar SKU",
+      "No celebrity required, Tower28 / Summer Fridays both did indie + Sephora",
+      "Lip mask, not mist",
+      "Honest gap: no bootstrap comp at scale in lip mask"
+    ],
+    positioning:"The lip mask that actually heals, not just shines."
+  },
+  { name:"Premium incense trio", category:"Home / Sensory", verdict:"alive",
+    scores:["P","P","P","P","~","P","P","P","P","P","P"],
+    cellNotes:[
+      "Hand-rolled + matchbook packaging = defense vs $4 Nag Champa",
+      "No PE roll-up in incense (candles different)",
+      "P.F. Candle Co bootstrap, no funded competitor lockdown",
+      "Indian-American home-fragrance brand is on-tone",
+      "Partial: India sourcing means freight + duty + 6-week lead. $17000 total fits but tight.",
+      "Cosmetic / home goods, no FDA",
+      "AOV $34 - COGS $5.20 - CAC $7 = $21.80 contribution",
+      "Single 3-pack SKU",
+      "P.F. Candle Co scaled without celebrity/fashion network",
+      "Incense sticks, not mist",
+      "P.F. Candle Co ($20M+ revenue, bootstrap)"
+    ],
+    positioning:"Hand-rolled Indian incense for the candle-burner who wants better than Nag Champa."
+  },
+  /* Previously-promoted picks that FAIL the matrix */
+  { name:"Pulse-point perfume oil (combo scent)", category:"Beauty", verdict:"dead",
+    scores:["~","P","F","P","P","P","P","P","~","P","~"],
+    cellNotes:[
+      "Partial: Bella Vita oil at $8 vs our $28. Combo scent helps but moderate.",
+      "No PE roll-up in fragrance (Phlur bought by VMG but indie path was already long).",
+      "Fails: Phlur ($26M) + Sol de Janeiro ($400M+ subline) + Brown Girl Jane all funded in this lane",
+      "Indian-American fragrance is on-tone",
+      "Fits budget",
+      "Cosmetic, no FDA",
+      "AOV $28 - COGS $4.80 - CAC $24 = -$0.80 contribution at projected CAC",
+      "Single SKU",
+      "Partial: Brown Girl Jane raised, indie-bootstrap path is narrow",
+      "Oil, not mist (passes C10)",
+      "Partial: Brown Girl Jane started bootstrap but raised $2M seed early"
+    ],
+    positioning:"Pulse-point perfume oil with one well-crafted combo scent."
+  },
+  { name:"Brow + lash conditioning serum", category:"Beauty", verdict:"dead",
+    scores:["~","F","F","P","P","P","~","P","~","P","F"],
+    cellNotes:[
+      "Partial: Castor oil alternatives exist but treatment positioning works",
+      "FAILS: Performance Beauty Group (Gauge Capital) bought Grande, Babe, UKLASH 2023-24",
+      "FAILS: Vegamour ($80M GA) owns clean. Grande, RevitaLash, Babe own conventional. No lane.",
+      "Beauty founder is on-tone",
+      "Fits budget",
+      "Treatment cosmetic, no FDA",
+      "Partial: AOV $34 - COGS $4 - CAC $35-50 = breakeven to negative",
+      "Single SKU",
+      "Partial: Vegamour leveraged tech-founder network",
+      "Serum, not mist",
+      "FAILS: no bootstrap brow+lash comp at $5M+ since 2018"
+    ],
+    positioning:"Brow + lash conditioning serum, prostaglandin-free."
+  },
+  { name:"Single-note mogra body mist", category:"Beauty", verdict:"dead",
+    scores:["F","P","~","P","P","P","P","P","P","F","F"],
+    cellNotes:[
+      "FAILS: Bella Vita India sells Indian florals on US Amazon at $8-12",
+      "No PE roll-up",
+      "Partial: Sol de Janeiro is combo not single-note, so direct competitor profile is different",
+      "Indian-American fragrance is on-tone",
+      "Fits budget",
+      "Cosmetic, no FDA",
+      "AOV $24 - COGS $5 - CAC $22 = -$3 contribution",
+      "Single SKU",
+      "No celebrity needed",
+      "FAILS: it IS a mist",
+      "FAILS: no single-note attar bootstrap brand at $5M+"
+    ],
+    positioning:"Single-note mogra hair + body mist."
+  },
+  { name:"Oshvi 9-active gummy ($48 sub)", category:"Wellness / supplements", verdict:"dead",
+    scores:["~","P","P","P","P","~","F","P","P","P","P"],
+    cellNotes:[
+      "Partial: $48 multi-active is differentiated vs $20 single-ingredient gummies",
+      "No PE roll-up in women's wellness gummies",
+      "Funded comps (Olly, Hum, Ritual) but subcategory is fragmented",
+      "Wellness founder is on-tone",
+      "Fits budget",
+      "Partial: supplement (not OTC) but FDA structure-function claims require care",
+      "FAILS: AOV $48 sub - COGS $7 - CAC $45 = -$4 contribution Y1, breakeven at scale",
+      "Single SKU launch",
+      "No celebrity needed",
+      "Gummy, not mist",
+      "Apothékary bootstrap (adjacent comp)"
+    ],
+    positioning:"9-active women's wellness gummy on subscription."
+  },
+  { name:"Postpartum recovery oil", category:"Beauty / wellness", verdict:"dead",
+    scores:["~","P","P","F","P","P","~","P","P","P","~"],
+    cellNotes:[
+      "Partial: postpartum oils start at $25 on Amazon",
+      "No PE roll-up",
+      "Funded (Mother's Above, Frida Mom) but indie still possible",
+      "FAILS: founder is not a mom. Highest-trust category. Will not convert.",
+      "Fits budget",
+      "Cosmetic, no FDA",
+      "Partial: postpartum CAC is high ($50+) but AOV $52 leaves room",
+      "Single SKU",
+      "No celebrity needed",
+      "Oil, not mist",
+      "Partial: Frida Mom raised but was indie until $5M"
+    ],
+    positioning:"Postpartum belly + perineum recovery oil."
+  },
+  { name:"Scalp / hair oil", category:"Beauty / haircare", verdict:"dead",
+    scores:["F","P","F","P","P","P","~","P","F","P","~"],
+    cellNotes:[
+      "FAILS: Dabur Amla $5 at Indian grocery",
+      "No PE roll-up in scalp oil specifically",
+      "FAILS: Fable &amp; Mane ($14M Series A), Mielle (Procter acquisition), Adwoa Beauty all funded",
+      "Beauty founder is on-tone",
+      "Fits budget",
+      "Cosmetic, no FDA",
+      "Partial: AOV $42 - COGS $6 - CAC $35 = $1 contribution, breakeven",
+      "Single SKU",
+      "FAILS: Fable &amp; Mane required fashion-industry connections + Sephora pickup",
+      "Oil, not mist",
+      "Partial: Adwoa indie origins but pivoted to funded"
+    ],
+    positioning:"Ayurvedic scalp + hair oil with bhringraj + amla."
+  },
+  { name:"Heritage perfume / attar ($68)", category:"Beauty / fragrance", verdict:"dead",
+    scores:["F","P","P","P","~","P","~","P","F","P","F"],
+    cellNotes:[
+      "FAILS: attar is $10 on Amazon, $5 in India direct",
+      "No PE roll-up in attar specifically",
+      "RUH is the only Indian-American comp, still indie",
+      "Indian-American fragrance is on-tone",
+      "Partial: $68 AOV needs higher unit COGS, eats budget faster",
+      "Cosmetic, no FDA",
+      "Partial: AOV $68 - COGS $14 - CAC $48 = $6 contribution",
+      "Single SKU",
+      "FAILS: RUH leveraged Sephora India + influencer network not available in US",
+      "Attar oil, not mist",
+      "FAILS: no Indian-American attar brand at $5M+ in US"
+    ],
+    positioning:"Indian heritage perfume / attar in modern glass."
+  },
+  { name:"Pillow mist trio ($32)", category:"Home / Sensory", verdict:"dead",
+    scores:["F","P","~","P","P","P","~","F","P","F","F"],
+    cellNotes:[
+      "FAILS: linen sprays at $6 (Mrs Meyers) and pillow mist at $12 (This Works) make the $10-alt test fail",
+      "No PE roll-up in pillow mist",
+      "Partial: This Works ($30M+ est, UK) and Slip Pillow Spray funded but US indie lane partly open",
+      "Indian-American home / sensory founder is on-tone",
+      "Fits budget at 3-SKU trio with ~$5500 production",
+      "Cosmetic, no FDA",
+      "Partial: AOV $32 (trio) - COGS $8 - CAC $25 = -$1 contribution",
+      "FAILS: trio = 3 SKUs at launch, blows 1K MOQ math",
+      "No celebrity needed",
+      "FAILS: it IS a mist (multiple of them)",
+      "FAILS: no bootstrap pillow-mist brand at $5M+"
+    ],
+    positioning:"Three-scent pillow mist trio for sleep ritual."
+  },
+  { name:"Hair perfume combo ($32)", category:"Beauty / fragrance", verdict:"dead",
+    scores:["F","P","F","P","P","P","F","P","P","F","F"],
+    cellNotes:[
+      "FAILS: Indian grocery jasmine hair oil at $5, Bella Vita hair mist at $8 on Amazon",
+      "No PE roll-up in hair perfume specifically",
+      "FAILS: Sol de Janeiro Cheirosa 62 hair+body mist did $400M+ revenue 2023, owns the lane",
+      "Indian-American fragrance is on-tone",
+      "Fits budget",
+      "Cosmetic, no FDA",
+      "FAILS: AOV $32 - COGS $6 - CAC $28 = -$2 contribution",
+      "Single SKU",
+      "No celebrity needed (Sol de Janeiro is mass-prestige not celebrity)",
+      "FAILS: it IS a mist (hair mist = mist)",
+      "FAILS: no indie bootstrap hair-perfume brand at $5M+"
+    ],
+    positioning:"Hair perfume combo scent for the Sol de Janeiro buyer."
+  },
+  { name:"Indian-heritage hair-and-body mist (mogra hero, $24)", category:"Beauty / fragrance", verdict:"dead",
+    scores:["F","P","F","P","P","P","F","P","P","F","F"],
+    cellNotes:[
+      "FAILS: Bella Vita Indian jasmine mist at $8 on US Amazon, attar at $10",
+      "No PE roll-up",
+      "FAILS: Sol de Janeiro Cheirosa 62 ($400M+ subline) owns hair+body mist category",
+      "Indian-American fragrance is on-tone",
+      "Fits budget",
+      "Cosmetic, no FDA",
+      "FAILS: AOV $24 - COGS $5 - CAC $24 = -$5 contribution",
+      "Single SKU",
+      "No celebrity needed",
+      "FAILS: it IS a mist (the whole format)",
+      "FAILS: no bootstrap Indian-American mist brand at $5M+"
+    ],
+    positioning:"Indian-heritage hair + body mist, mogra-led combo, 100ml atomizer."
+  }
+];
+
+/* ============ PRE-COMMITMENT TABLE ============ */
+const PRECOMMITS = [
+  { trigger:"A specific named PE firm announces acquisition of a brand in one of the four locked categories (lip oil, evening tea, premium spice gift sets, affirmation cards)", action:"Re-evaluate ONLY that affected pick against C2 + C3. Other three locked picks unaffected.", scope:"single pick" },
+  { trigger:"FDA publishes a new compliance requirement that pushes one of the locked categories into OTC drug pathway", action:"Re-evaluate ONLY affected pick against C6. Others unaffected.", scope:"single pick" },
+  { trigger:"Founder personally decides she does not want to operate in one of the four categories (writing fatigue, distaste for category)", action:"Demote that pick. Promote highest-scoring 'alive but risky' pick (overnight lip mask 9/11 or premium incense 10/11).", scope:"single pick" },
+  { trigger:"A bootstrap competitor in one of the four categories closes shop / gets acquired in a way that removes the named bootstrap comp", action:"Re-evaluate ONLY affected pick against C11. Replacement comp must be named, sourced.", scope:"single pick" },
+  { trigger:"Total budget changes (drops below $12K or climbs above $40K)", action:"Re-evaluate all picks against C5 + C7. Picks under new budget envelope may shift.", scope:"all picks" },
+  { trigger:"Founder personally launches a sister brand that creates conflict with one of the four categories", action:"Demote conflicted pick only.", scope:"single pick" },
+  { trigger:"Anything not in this table", action:"Out of scope. Cannot be used to demote a locked pick. Founder can call it out as a moved goalpost.", scope:"none — protected" }
+];
+
+/* ============ RENDER ============ */
+function renderCriteria() {
+  const grid = document.getElementById('criteriaGrid');
+  grid.innerHTML = CRITERIA.map(c => `
+    <div class="criterion-card">
+      <h3><span class="crit-id">${c.id}</span> ${c.name}</h3>
+      <p class="crit-def">${c.def}</p>
+      <p class="crit-source"><strong>Where this came from:</strong> ${c.source}</p>
+    </div>
+  `).join('');
+}
+
+function renderStabilityMatrix() {
+  const header = document.getElementById('stabHeader');
+  CRITERIA.forEach(c => {
+    const th = document.createElement('th');
+    th.className = 'crit-col';
+    th.title = c.name + ': ' + c.def;
+    th.innerHTML = `<span class="crit-id">${c.id}</span>${c.name}`;
+    header.appendChild(th);
+  });
+  const stabScoreTh = document.createElement('th');
+  stabScoreTh.className = 'stab-score-col';
+  stabScoreTh.textContent = 'Stability';
+  header.appendChild(stabScoreTh);
+
+  const body = document.getElementById('stabBody');
+  body.innerHTML = PICKS.map(pick => {
+    const passCount = pick.scores.filter(s => s === 'P').length;
+    const partialCount = pick.scores.filter(s => s === '~').length;
+    let scoreClass = 'dead';
+    if (passCount >= 9) scoreClass = 'lock';
+    else if (passCount + partialCount >= 8) scoreClass = 'risky';
+    const cells = pick.scores.map((s, i) => {
+      const cls = s === 'P' ? 'cell-pass' : (s === '~' ? 'cell-partial' : 'cell-fail');
+      const symbol = s === 'P' ? 'P' : (s === '~' ? '~' : 'F');
+      return `<td><span class="${cls}" title="${CRITERIA[i].id} — ${(pick.cellNotes[i]||'').replace(/"/g,'&quot;')}">${symbol}</span></td>`;
+    }).join('');
+    return `
+      <tr>
+        <td class="concept-cell">${pick.name}</td>
+        ${cells}
+        <td><span class="stab-score ${scoreClass}">${passCount}/11</span></td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function renderLocked() {
+  const locked = PICKS.filter(p => p.scores.filter(s => s === 'P').length >= 9);
+  const body = document.getElementById('lockedBody');
+  body.innerHTML = locked.map(p => {
+    const passCount = p.scores.filter(s => s === 'P').length;
+    return `
+      <div class="locked-card">
+        <div class="lock-head">
+          <div>
+            <h3>${p.name}</h3>
+            <div class="lock-meta">${p.category} · Stability score</div>
+          </div>
+          <div class="lock-stab">${passCount}/11 locked</div>
+        </div>
+        <div class="lock-positioning">"${p.positioning}"</div>
+
+        <div class="lock-defense">
+          <h4>Defense against all 11 criteria (pre-committed)</h4>
+          <table class="defense-table">
+            ${p.scores.map((s, i) => `
+              <tr>
+                <td class="cid">${CRITERIA[i].id}</td>
+                <td class="cname">${CRITERIA[i].name}</td>
+                <td class="cdef">${p.cellNotes[i]}</td>
+              </tr>
+            `).join('')}
+          </table>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderPrecommit() {
+  const tbody = document.querySelector('#precommitTable tbody');
+  tbody.innerHTML = PRECOMMITS.map(p => `
+    <tr>
+      <td class="trig">${p.trigger}</td>
+      <td class="act">${p.action}</td>
+      <td class="scope">${p.scope}</td>
+    </tr>
+  `).join('');
+}
+
+renderCriteria();
+renderStabilityMatrix();
+renderLocked();
+renderPrecommit();
+</script>
+
+</body>
+</html>
